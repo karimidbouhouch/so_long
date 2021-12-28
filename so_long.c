@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:06:54 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/28 11:38:40 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2021/12/28 13:02:42 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,9 +108,9 @@ void *init_image(char *file, t_mlx *mlx)
 void init_images(t_mlx *mlx, t_img *img)
 {
 	img->empty = init_image("img/empty.xpm", mlx);
-	img->collect = init_image("img/collect.xpm", mlx);
+	img->collect = init_image("img/collect2.xpm", mlx);
 	img->wall = init_image("img/wall.xpm", mlx);
-	img->player = init_image("img/player.xpm", mlx);
+	img->player = init_image("img/player2.xpm", mlx);
 	img->exit = init_image("img/exit.xpm", mlx);
 }
 
@@ -209,7 +209,7 @@ int main(int ac, char **av)
 	t_mlx	mlx;
 	t_img	img;
 	
-	p_map("maps/map2.ber", &map);
+	p_map("maps/map3.ber", &map);
 	mlx.mlx_ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx_ptr, (map.width * 50), (map.height * 50), "so_long");
 	init_images(&mlx, &img);
