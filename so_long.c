@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:06:54 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/28 13:02:42 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2021/12/28 16:11:18 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void init_images(t_mlx *mlx, t_img *img)
 	img->collect = init_image("img/collect2.xpm", mlx);
 	img->wall = init_image("img/wall.xpm", mlx);
 	img->player = init_image("img/player2.xpm", mlx);
-	img->exit = init_image("img/exit.xpm", mlx);
+	img->exit0 = init_image("img/door_close.xpm", mlx);
+	img->exit1 = init_image("img/door_open.xpm", mlx);
 }
 
 void print_map(t_mlx *mlx, t_map *map, t_img *img)
@@ -126,7 +127,7 @@ void print_map(t_mlx *mlx, t_map *map, t_img *img)
 		while (j < map->width)
 		{
 			if (map->map[i][j] == '1')
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->wall, j * 50, i * 50);
+				mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win, img->wall, j * 50, i * 50);
 			if (map->map[i][j] == '0' || map->map[i][j] == 'E' || map->map[i][j] == 'P')
 				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->empty, j * 50, i * 50);
 			if (map->map[i][j] == 'P')
@@ -136,7 +137,11 @@ void print_map(t_mlx *mlx, t_map *map, t_img *img)
 				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->player, j * 50, i * 50);
 			}
 			if(map->map[i][j] == 'E')
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->exit, j * 50, i * 50);
+			{
+				map->x_exit = i;
+				map->y_exit = j;
+				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->exit0, j * 50, i * 50);
+			}
 			if (map->map[i][j] == 'C')
 				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->collect, j * 50, i * 50);
 			j++;
@@ -184,6 +189,8 @@ void	movement(t_map *map, int x, int y)
 				map->map[x][y] = 'P';
 				print_map(&map->mlx, map, &map->img);
 			}
+			map->count_move++;
+			printf("%d\n",map->count_move);
 		}
 	}
 }
@@ -192,14 +199,18 @@ int		key_press(int keycode, t_map *map)
 {
 	if(keycode == 53)
 		exit(1);
-	if(keycode == 13)
+	if(keycode == 13 || keycode == 126)
 		movement(map, map->x - 1, map->y);
-	if(keycode == 2)
+	if(keycode == 2 || keycode == 124)
 		movement(map, map->x, map->y + 1);
-	if(keycode == 0)
+	if(keycode == 0 || keycode == 123)
 		movement(map, map->x, map->y - 1);
-	if(keycode == 1)
+	if(keycode == 1 || keycode == 125)
 		movement(map, map->x + 1, map->y);
+	if(check_collects(map))
+	{
+		mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win, map->img.exit1, map->y_exit * 50, map->x_exit * 50);
+	}
 	return (0);
 }
 
@@ -209,13 +220,16 @@ int main(int ac, char **av)
 	t_mlx	mlx;
 	t_img	img;
 	
-	p_map("maps/map3.ber", &map);
+	p_map("maps/map2.ber", &map);
 	mlx.mlx_ptr = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx_ptr, (map.width * 50), (map.height * 50), "so_long");
 	init_images(&mlx, &img);
+	map.mlx = mlx;
+	map.img = img;
 	print_map(&mlx, &map, &img);
 	map.mlx = mlx;
 	map.img = img;
+	map.count_move = 0;
 	mlx_hook(mlx.win, 2, 0, &key_press, &map);
 	mlx_loop(mlx.mlx_ptr);
 }

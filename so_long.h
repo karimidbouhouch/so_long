@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:08:44 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/28 04:26:05 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2021/12/28 16:04:19 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ typedef struct s_img
 	void	*wall;
 	void	*player;
 	void	*collect;
-	void	*exit;
+	void	*exit0;
+	void	*exit1;
 	void	*empty;
 }	t_img;
 
@@ -44,8 +45,9 @@ typedef	struct s_map
 	t_mlx	mlx;
 	int		x;
 	int		y;
-	int		collect;
+	int		count_move;
+	int		x_exit;
+	int		y_exit;
 }	t_map;
-
 
 #endif
