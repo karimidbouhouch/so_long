@@ -6,14 +6,14 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:08:44 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/28 16:04:19 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2021/12/31 20:29:25 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include "get_next_line.h"
+# include "src/get_next_line.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -49,5 +49,18 @@ typedef	struct s_map
 	int		x_exit;
 	int		y_exit;
 }	t_map;
+
+void	check_extension_map(char *map);
+void	parsing_map(char *file, t_map *map);
+void	check_map(char *file, t_map	*map);
+int		ft_strlen_nl(char *str);
+void	ft_error(void);
+void	ft_putstr(char *str);
+void	check_wall_map(t_map *map);
+int		check_collects(t_map *map);
+int		key_press(int keycode, t_map *map);
+void	movement(t_map *map, int x, int y);
+void	print_map(t_mlx *mlx, t_map *map, t_img *img);
+void	init_images(t_mlx *mlx, t_img *img);
 
 #endif
