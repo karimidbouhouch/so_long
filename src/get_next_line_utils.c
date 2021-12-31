@@ -6,11 +6,11 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/16 12:48:44 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/26 05:10:50 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2021/12/31 20:32:47 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
 {
