@@ -6,31 +6,11 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:39:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/31 20:32:15 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/01 20:17:28 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
-
-void	ft_error(void)
-{
-	ft_putstr("error !");
-	exit(1);
-}
-
-int ft_strlen_nl(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '\n')
-			return (i);
-		i++;
-	}
-	return (i);
-}
 
 void	check_map(char *file, t_map	*map)
 {
@@ -38,20 +18,20 @@ void	check_map(char *file, t_map	*map)
 	int		fd;
 	int		width;
 	int		height;
-	
+
 	width = 0;
 	height = 0;
 	check_extension_map(file);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		ft_error();
-	while((line = get_next_line(fd)))
+		ft_putstr("error read map\n");
+	while (ft_read(fd, &line))
 	{
-		if(!width)
+		if (!width)
 			width = ft_strlen_nl(line);
-		if(width != ft_strlen_nl(line))
+		if (width != ft_strlen_nl(line))
 		{
-			ft_putstr("error length map\n");
+			ft_putstr("map structure error\n");
 			exit(1);
 		}
 		height++;
@@ -60,22 +40,41 @@ void	check_map(char *file, t_map	*map)
 	map->width = width;
 }
 
+void	check_wall_map_2(t_map *map)
+{
+	if (check_char(map, 'P') > 1 || check_char(map, 'P') == 0)
+	{
+		ft_putstr("Player error !");
+		exit(1);
+	}
+	if (check_char(map, 'C') == 0)
+	{
+		ft_putstr("Collect error !");
+		exit(1);
+	}
+	if (check_char(map, 'E') == 0)
+	{
+		ft_putstr("Exit error !");
+		exit(1);
+	}
+}
+
 void	check_wall_map(t_map *map)
 {
-	int i;
+	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (i < map->height)
 	{
 		j = 0;
 		while (j < map->width)
 		{
-			if(i == 0 || j == 0 || j == map->width - 1 || i == map->height - 1)
+			if (i == 0 || j == 0 || j == map->width - 1 || i == map->height - 1)
 			{
-				if(map->map[i][j] != '1')
-				{
-					printf("error map");
+				if (map->map[i][j] != '1')
+				{		
+					ft_putstr("error map");
 					exit(1);
 				}
 			}
@@ -83,22 +82,23 @@ void	check_wall_map(t_map *map)
 		}
 		i++;
 	}
+	check_wall_map_2(map);
 }
 
 void	parsing_map(char *file, t_map *map)
 {
 	char	*line;
-	int 	fd;
+	int		fd;
 	int		i;
 
 	i = 0;
 	check_map(file, map);
 	fd = open(file, O_RDONLY);
-	if(fd < 0)
-		ft_error();
+	if (fd < 0)
+		ft_putstr("error read map\n");
 	map->map = malloc(sizeof(char *) * (map->height + 1));
 	map->map[map->height + 1] = NULL;
-	while ((line = get_next_line(fd)))
+	while (ft_read(fd, &line))
 	{
 		map->map[i] = line;
 		i++;
@@ -109,9 +109,10 @@ void	parsing_map(char *file, t_map *map)
 void	check_extension_map(char *map)
 {
 	int	i;
-	
+
 	i = ft_strlen(map);
-	if (map[i - 1] != 'r' || map[i - 2] != 'e' || map[i - 3] != 'b' || map[i - 4] != '.')
+	if (map[i - 1] != 'r' || map[i - 2] != 'e'
+		|| map[i - 3] != 'b' || map[i - 4] != '.')
 	{
 		ft_putstr("error format map\n");
 		exit(1);

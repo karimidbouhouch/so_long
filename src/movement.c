@@ -6,48 +6,46 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:31:39 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/31 20:32:06 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/01 20:15:58 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../so_long.h"
 
-int		check_collects(t_map *map)
+int	check_char(t_map *map, char c)
 {
 	int	i;
 	int	j;
+	int	count;
 
 	i = 0;
-	while(i < map->height)
+	count = 0;
+	while (i < map->height)
 	{
 		j = 0;
 		while (j < map->width)
 		{
-			if (map->map[i][j] == 'C')
-				return (0);
+			if (map->map[i][j] == c)
+				count++;
 			j++;
 		}
 		i++;
 	}
-	return (1);
+	return (count);
 }
 
-int		key_press(int keycode, t_map *map)
+int	key_press(int keycode, t_map *map)
 {
-	if(keycode == 53)
+	if (keycode == 53)
 		exit(1);
-	if(keycode == 13 || keycode == 126)
+	if (keycode == 13 || keycode == 126)
 		movement(map, map->x - 1, map->y);
-	if(keycode == 2 || keycode == 124)
+	if (keycode == 2 || keycode == 124)
 		movement(map, map->x, map->y + 1);
-	if(keycode == 0 || keycode == 123)
+	if (keycode == 0 || keycode == 123)
 		movement(map, map->x, map->y - 1);
-	if(keycode == 1 || keycode == 125)
+	if (keycode == 1 || keycode == 125)
 		movement(map, map->x + 1, map->y);
-	if(check_collects(map))
-	{
-		mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win, map->img.exit1, map->y_exit * 50, map->x_exit * 50);
-	}
 	return (0);
 }
 
@@ -59,7 +57,7 @@ void	movement(t_map *map, int x, int y)
 		{
 			if (map->map[x][y] == 'E')
 			{
-				if(check_collects(map))
+				if (check_char(map, 'C') == 0)
 					exit(1);
 			}
 			else
@@ -68,10 +66,10 @@ void	movement(t_map *map, int x, int y)
 				map->x = x;
 				map->y = y;
 				map->map[x][y] = 'P';
-				print_map(&map->mlx, map, &map->img);
+				print_map(map);
 			}
 			map->count_move++;
-			printf("%d\n",map->count_move);
+			printf("%d\n", map->count_move);
 		}
 	}
 }

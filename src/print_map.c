@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:47:35 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/31 20:32:03 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/01 20:16:38 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,32 @@ void	init_images(t_mlx *mlx, t_img *img)
 	img->exit1 = init_image("img/door_open.xpm", mlx);
 }
 
-void	print_map(t_mlx *mlx, t_map *map, t_img *img)
+void	print_map2(t_map *map, int i, int j)
+{
+	if (map->map[i][j] == 'P')
+	{
+		map->x = i;
+		map->y = j;
+		mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win,
+			map->img.player, j * 50, i * 50);
+	}
+	if (map->map[i][j] == 'E')
+	{
+		map->x_exit = i;
+		map->y_exit = j;
+		mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win,
+			map->img.exit1, j * 50, i * 50);
+	}
+	if (map->map[i][j] == 'C')
+		mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win,
+			map->img.collect, j * 50, i * 50);
+}
+
+void	print_map(t_map *map)
 {
 	int	i;
 	int	j;
-	
+
 	i = 0;
 	while (i < map->height)
 	{
@@ -51,23 +72,13 @@ void	print_map(t_mlx *mlx, t_map *map, t_img *img)
 		while (j < map->width)
 		{
 			if (map->map[i][j] == '1')
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->wall, j * 50, i * 50);
-			if (map->map[i][j] == '0' || map->map[i][j] == 'E' || map->map[i][j] == 'P')
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->empty, j * 50, i * 50);
-			if (map->map[i][j] == 'P')
-			{
-				map->x = i;
-				map->y = j;
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->player, j * 50, i * 50);
-			}
-			if(map->map[i][j] == 'E')
-			{
-				map->x_exit = i;
-				map->y_exit = j;
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->exit0, j * 50, i * 50);
-			}
-			if (map->map[i][j] == 'C')
-				mlx_put_image_to_window(mlx->mlx_ptr, mlx->win, img->collect, j * 50, i * 50);
+				mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win,
+					map->img.wall, j * 50, i * 50);
+			if (map->map[i][j] == '0' || map->map[i][j] == 'E'
+				|| map->map[i][j] == 'P')
+				mlx_put_image_to_window(map->mlx.mlx_ptr, map->mlx.win,
+					map->img.empty, j * 50, i * 50);
+			print_map2(map, i, j);
 			j++;
 		}
 		i++;

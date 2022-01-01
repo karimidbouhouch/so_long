@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:08:44 by kid-bouh          #+#    #+#             */
-/*   Updated: 2021/12/31 20:29:25 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/01 20:18:21 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ typedef struct s_img
 	void	*exit0;
 	void	*exit1;
 	void	*empty;
+	void	*enemy;
 }	t_img;
 
-typedef	struct s_map
+typedef struct s_map
 {
 	char	**map;
 	int		width;
@@ -48,6 +49,8 @@ typedef	struct s_map
 	int		count_move;
 	int		x_exit;
 	int		y_exit;
+	int		x_enemy;
+	int		y_enemy;
 }	t_map;
 
 void	check_extension_map(char *map);
@@ -57,10 +60,12 @@ int		ft_strlen_nl(char *str);
 void	ft_error(void);
 void	ft_putstr(char *str);
 void	check_wall_map(t_map *map);
-int		check_collects(t_map *map);
+int		check_char(t_map *map, char c);
 int		key_press(int keycode, t_map *map);
 void	movement(t_map *map, int x, int y);
-void	print_map(t_mlx *mlx, t_map *map, t_img *img);
+void	print_map(t_map *map);
 void	init_images(t_mlx *mlx, t_img *img);
+int		ft_strlen_nl(char *str);
+char	*ft_read(int fd, char **line);
 
 #endif
