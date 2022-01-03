@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:08:44 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/01/01 20:18:21 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/03 23:59:42 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ typedef struct s_img
 	void	*wall;
 	void	*player;
 	void	*collect;
-	void	*exit0;
-	void	*exit1;
+	void	*exit;
 	void	*empty;
 	void	*enemy;
 }	t_img;
@@ -47,10 +46,6 @@ typedef struct s_map
 	int		x;
 	int		y;
 	int		count_move;
-	int		x_exit;
-	int		y_exit;
-	int		x_enemy;
-	int		y_enemy;
 }	t_map;
 
 void	check_extension_map(char *map);
@@ -67,5 +62,6 @@ void	print_map(t_map *map);
 void	init_images(t_mlx *mlx, t_img *img);
 int		ft_strlen_nl(char *str);
 char	*ft_read(int fd, char **line);
+int		ft_close(void);
 
 #endif
