@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/30 15:39:33 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/01/01 20:17:28 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/03 23:39:15 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,14 @@ void	check_wall_map(t_map *map)
 void	parsing_map(char *file, t_map *map)
 {
 	char	*line;
+	char	*path;
 	int		fd;
 	int		i;
 
 	i = 0;
-	check_map(file, map);
-	fd = open(file, O_RDONLY);
+	path = ft_strjoin("maps/", file);
+	check_map(path, map);
+	fd = open(path, O_RDONLY);
 	if (fd < 0)
 		ft_putstr("error read map\n");
 	map->map = malloc(sizeof(char *) * (map->height + 1));
@@ -103,6 +105,7 @@ void	parsing_map(char *file, t_map *map)
 		map->map[i] = line;
 		i++;
 	}
+	free(path);
 	check_wall_map(map);
 }
 
@@ -114,7 +117,7 @@ void	check_extension_map(char *map)
 	if (map[i - 1] != 'r' || map[i - 2] != 'e'
 		|| map[i - 3] != 'b' || map[i - 4] != '.')
 	{
-		ft_putstr("error format map\n");
+		ft_putstr("error map\n");
 		exit(1);
 	}
 }

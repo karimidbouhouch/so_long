@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/26 05:06:54 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/01/01 20:17:46 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/03 23:01:43 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	so_long(char *path)
 	print_map(&map);
 	map.count_move = 0;
 	mlx_hook(mlx.win, 2, 0, &key_press, &map);
+	mlx_hook(mlx.win, 17, 0, &ft_close, NULL);
 	mlx_loop(mlx.mlx_ptr);
 }
 
