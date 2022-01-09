@@ -6,7 +6,7 @@
 /*   By: kid-bouh <kid-bouh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:31:39 by kid-bouh          #+#    #+#             */
-/*   Updated: 2022/01/01 20:15:58 by kid-bouh         ###   ########.fr       */
+/*   Updated: 2022/01/09 21:32:15 by kid-bouh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	movement(t_map *map, int x, int y)
 				map->y = y;
 				map->map[x][y] = 'P';
 				print_map(map);
+				map->count_move++;
+				printf("%d\n", map->count_move);
 			}
-			map->count_move++;
-			printf("%d\n", map->count_move);
 		}
 	}
 }
